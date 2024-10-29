@@ -53,7 +53,7 @@ public class Main {
             } else if (opcao == 2) {
                 sistema.listarItensCadastrados(); // Lista os itens cadastrados antes da adição
                 
-                if (!sistema.getListaDeProdutos().isEmpty()) { // Verifica se há itens cadastrados
+                if (!sistema.getListaDeItens().isEmpty()) { // Verifica se há itens cadastrados
                     System.out.print("Qual produto você gostaria de adicionar à lista? Digite o código: ");
                     int codigoAdicionar = scanner.nextInt();
                     sistema.adicionarItemNaLista(codigoAdicionar); // Adiciona o produto selecionado à lista de compras

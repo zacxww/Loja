@@ -5,12 +5,12 @@ import java.util.Locale;
 
 public class Sistema {
 
-    private List<Item> listaDeProdutos = new ArrayList<>();
+    private List<Item> listaDeItens = new ArrayList<>();
     private List<Item> listaDeCompras = new ArrayList<>();
     private Item itemTemporario;
 
     public String verificarCodigoDuplicado(int codigo) {
-        for (Item item : listaDeProdutos) {
+        for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
                 return "Erro: Já existe um item cadastrado com este código."; // Mensagem de erro para código
             }
@@ -19,7 +19,7 @@ public class Sistema {
     }
 
     public String verificarNomeDuplicado(String nome) {
-        for (Item item : listaDeProdutos) {
+        for (Item item : listaDeItens) {
             if (item.getNome().equalsIgnoreCase(nome)) {
                 return "Erro: Já existe um item cadastrado com este nome."; // Mensagem de erro para nome
             }
@@ -29,12 +29,12 @@ public class Sistema {
 
     public Item criarItem(int codigo, String nome, double preco) {
         itemTemporario = new Item(codigo, nome, preco);
-        listaDeProdutos.add(itemTemporario); // Adiciona o item à lista de produtos
+        listaDeItens.add(itemTemporario); // Adiciona o item à lista de produtos
         return itemTemporario;
     }
 
     public void adicionarItemNaLista(int codigo) {
-        for (Item item : listaDeProdutos) {
+        for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
                 // Verifica se o item já está na lista de compras
                 if (listaDeCompras.contains(item)) {
@@ -49,17 +49,17 @@ public class Sistema {
         System.out.println("Produto não encontrado na lista de itens cadastrados.");
     }
 
-    public List<Item> getListaDeProdutos() {
-        return listaDeProdutos; // Retorna a lista de produtos cadastrados
+    public List<Item> getListaDeItens() {
+        return listaDeItens; // Retorna a lista de produtos cadastrados
     }
 
     public void listarItensCadastrados() {
-        if (listaDeProdutos.isEmpty()) {
+        if (listaDeItens.isEmpty()) {
             System.out.println("Nenhum item cadastrado.");
         } else {
             System.out.println("Lista de Itens Cadastrados:");
             NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
-            for (Item item : listaDeProdutos) {
+            for (Item item : listaDeItens) {
                 System.out.printf("Código: %d, Nome: %s, Preço: %s%n", 
                                   item.getCodigo(), 
                                   item.getNome(), 
@@ -84,7 +84,7 @@ public class Sistema {
     }
 
     public void pesquisarItemPorCodigo(int codigo) {
-        for (Item item : listaDeProdutos) {
+        for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
                 NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
                 System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n", 
@@ -101,7 +101,7 @@ public class Sistema {
         boolean encontrado = false;
         NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
         
-        for (Item item : listaDeProdutos) {
+        for (Item item : listaDeItens) {
             if (item.getNome().toLowerCase().contains(nome.toLowerCase())) { // Ignora case sensitivity
                 System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n", 
                                   item.getCodigo(), 
