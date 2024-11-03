@@ -13,8 +13,12 @@ public class Main {
             System.out.println("4 - Listar produtos adicionados à lista");
             System.out.println("5 - Pesquisar Item por Código");
             System.out.println("6 - Pesquisar Item por Nome");
+            System.out.println("7 - Remover Item da Lista");
+            System.out.println("8 - Remover Item Cadastrado");
+            System.out.println("9 - Editar nome de um Item");
+            System.out.println("10 - Editar código de um Item");
             System.out.println("0 - Sair");
-
+        
             int opcao = scanner.nextInt();
             scanner.nextLine();
             
@@ -23,48 +27,43 @@ public class Main {
                 int codigo = scanner.nextInt();
                 scanner.nextLine();
                 
-                // Verifica duplicata do código antes de solicitar o nome
                 String erroCodigo = sistema.verificarCodigoDuplicado(codigo);
                 if (erroCodigo != null) { 
-                    System.out.println(erroCodigo); // Exibe a mensagem de erro se houver duplicatas
-                    continue; // Volta ao início do loop sem solicitar mais dados
+                    System.out.println(erroCodigo);
+                    continue;
                 }
 
                 System.out.print("Digite o nome do Item: ");
                 String nome = scanner.nextLine();
 
-                // Verifica duplicata do nome antes de criar o produto
                 String erroNome = sistema.verificarNomeDuplicado(nome);
                 if (erroNome != null) { 
-                    System.out.println(erroNome); // Exibe a mensagem de erro se houver duplicatas
-                    continue; // Volta ao início do loop sem solicitar mais dados
+                    System.out.println(erroNome);
+                    continue;
                 }
 
                 System.out.print("Digite o preço do Item: ");
                 double preco = scanner.nextDouble();
                 scanner.nextLine();
 
-                // Tenta criar o produto e verifica se foi bem-sucedido
-                Item novoItem = sistema.criarItem(codigo, nome, preco);
-                if (novoItem != null) { // Verifica se a criação foi bem-sucedida
-                    System.out.println("Produto criado e adicionado à lista de produtos com sucesso!");
-                }
+                sistema.criarItem(codigo, nome, preco);
+                System.out.println("Produto criado e adicionado à lista de produtos com sucesso!");
                 
             } else if (opcao == 2) {
-                sistema.listarItensCadastrados(); // Lista os itens cadastrados antes da adição
+                sistema.listarItensCadastrados();
                 
-                if (!sistema.getListaDeItens().isEmpty()) { // Verifica se há itens cadastrados
+                if (!sistema.getListaDeItens().isEmpty()) {
                     System.out.print("Qual produto você gostaria de adicionar à lista? Digite o código: ");
                     int codigoAdicionar = scanner.nextInt();
-                    sistema.adicionarItemNaLista(codigoAdicionar); // Adiciona o produto selecionado à lista de compras
+                    sistema.adicionarItemNaLista(codigoAdicionar);
                 } else {
                     System.out.println("Nenhum produto cadastrado para adicionar à lista.");
                 }
                 
             } else if (opcao == 3) {
-                sistema.listarItensCadastrados(); // Lista itens cadastrados
+                sistema.listarItensCadastrados();
             } else if (opcao == 4) {
-                sistema.listarItensNaLista(); // Lista itens na lista de compras
+                sistema.listarItensNaLista();
             } else if (opcao == 5) {
                 System.out.print("Digite o código do Item para pesquisar: ");
                 int codigoPesquisa = scanner.nextInt();
@@ -73,6 +72,33 @@ public class Main {
                 System.out.print("Digite o nome do Item para pesquisar: ");
                 String nomePesquisa = scanner.nextLine();
                 sistema.pesquisarItemPorNome(nomePesquisa);
+            } else if (opcao == 7) {
+                sistema.listarItensNaLista();
+                System.out.print("Digite o código do Item que deseja remover da lista: ");
+                int codigoRemoverLista = scanner.nextInt();
+                sistema.removerItemDaLista(codigoRemoverLista);
+            } else if (opcao == 8) {
+                sistema.listarItensCadastrados();
+                System.out.print("Digite o código do Item que deseja remover: ");
+                int codigoRemoverCadastrado = scanner.nextInt();
+                sistema.removerItemCadastrado(codigoRemoverCadastrado);
+            } else if (opcao == 9) { // Opção para editar nome
+                sistema.listarItensCadastrados();
+                System.out.print("Digite o código do Item que deseja editar o nome: ");
+                int codigoEditar = scanner.nextInt();
+                scanner.nextLine(); // Limpa o buffer
+                System.out.print("Digite o novo nome do Item: ");
+                String novoNome = scanner.nextLine();
+                
+                sistema.editarNomeItem(codigoEditar, novoNome);
+            } else if (opcao == 10) { // Opção para editar código
+                sistema.listarItensCadastrados();
+                System.out.print("Digite o código do Item que deseja editar: ");
+                int codigoAntigo = scanner.nextInt();
+                System.out.print("Digite o novo código do Item: ");
+                int novoCodigo = scanner.nextInt();
+
+                sistema.editarCodigoItem(codigoAntigo, novoCodigo);
             } else if (opcao == 0) {
                 System.out.println("Encerrando o sistema...");
                 break;

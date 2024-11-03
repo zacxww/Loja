@@ -7,41 +7,39 @@ public class Sistema {
 
     private List<Item> listaDeItens = new ArrayList<>();
     private List<Item> listaDeCompras = new ArrayList<>();
-    private Item itemTemporario;
 
     public String verificarCodigoDuplicado(int codigo) {
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
-                return "Erro: Já existe um item cadastrado com este código."; // Mensagem de erro para código
+                return "Erro: Já existe um item cadastrado com este código.";
             }
         }
-        return null; // Retorna null se não houver duplicatas
+        return null;
     }
 
     public String verificarNomeDuplicado(String nome) {
         for (Item item : listaDeItens) {
             if (item.getNome().equalsIgnoreCase(nome)) {
-                return "Erro: Já existe um item cadastrado com este nome."; // Mensagem de erro para nome
+                return "Erro: Já existe um item cadastrado com este nome.";
             }
         }
-        return null; // Retorna null se não houver duplicatas
+        return null;
     }
 
     public Item criarItem(int codigo, String nome, double preco) {
-        itemTemporario = new Item(codigo, nome, preco);
-        listaDeItens.add(itemTemporario); // Adiciona o item à lista de produtos
-        return itemTemporario;
+        Item novoItem = new Item(codigo, nome, preco);
+        listaDeItens.add(novoItem);
+        return novoItem;
     }
 
     public void adicionarItemNaLista(int codigo) {
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
-                // Verifica se o item já está na lista de compras
                 if (listaDeCompras.contains(item)) {
                     System.out.println("Erro: O produto " + item.getNome() + " já está na lista.");
-                    return; // Não adiciona se já estiver na lista
+                    return;
                 }
-                listaDeCompras.add(item); // Adiciona o item à lista de compras
+                listaDeCompras.add(item);
                 System.out.println("Produto " + item.getNome() + " adicionado à lista com sucesso!");
                 return;
             }
@@ -50,7 +48,7 @@ public class Sistema {
     }
 
     public List<Item> getListaDeItens() {
-        return listaDeItens; // Retorna a lista de produtos cadastrados
+        return listaDeItens;
     }
 
     public void listarItensCadastrados() {
@@ -58,12 +56,12 @@ public class Sistema {
             System.out.println("Nenhum item cadastrado.");
         } else {
             System.out.println("Lista de Itens Cadastrados:");
-            NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
+            NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             for (Item item : listaDeItens) {
-                System.out.printf("Código: %d, Nome: %s, Preço: %s%n", 
-                                  item.getCodigo(), 
-                                  item.getNome(), 
-                                  formatoMoeda.format(item.getPreco()));
+                System.out.printf("Código: %d, Nome: %s, Preço: %s%n",
+                        item.getCodigo(),
+                        item.getNome(),
+                        formatoMoeda.format(item.getPreco()));
             }
         }
     }
@@ -73,12 +71,12 @@ public class Sistema {
             System.out.println("Nenhum item adicionado na lista.");
         } else {
             System.out.println("Lista de Itens na Lista de Compras:");
-            NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
+            NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             for (Item item : listaDeCompras) {
-                System.out.printf("Código: %d, Nome: %s, Preço: %s%n", 
-                                  item.getCodigo(), 
-                                  item.getNome(), 
-                                  formatoMoeda.format(item.getPreco()));
+                System.out.printf("Código: %d, Nome: %s, Preço: %s%n",
+                        item.getCodigo(),
+                        item.getNome(),
+                        formatoMoeda.format(item.getPreco()));
             }
         }
     }
@@ -86,11 +84,11 @@ public class Sistema {
     public void pesquisarItemPorCodigo(int codigo) {
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
-                NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
-                System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n", 
-                                  item.getCodigo(), 
-                                  item.getNome(), 
-                                  formatoMoeda.format(item.getPreco()));
+                NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+                System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n",
+                        item.getCodigo(),
+                        item.getNome(),
+                        formatoMoeda.format(item.getPreco()));
                 return;
             }
         }
@@ -99,20 +97,86 @@ public class Sistema {
 
     public void pesquisarItemPorNome(String nome) {
         boolean encontrado = false;
-        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // Formatação em R$
-        
+        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
         for (Item item : listaDeItens) {
-            if (item.getNome().toLowerCase().contains(nome.toLowerCase())) { // Ignora case sensitivity
-                System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n", 
-                                  item.getCodigo(), 
-                                  item.getNome(), 
-                                  formatoMoeda.format(item.getPreco()));
+            if (item.getNome().toLowerCase().contains(nome.toLowerCase())) {
+                System.out.printf("Item encontrado: Código: %d, Nome: %s, Preço: %s%n",
+                        item.getCodigo(),
+                        item.getNome(),
+                        formatoMoeda.format(item.getPreco()));
                 encontrado = true;
             }
         }
-        
+
         if (!encontrado) {
             System.out.println("Nenhum item encontrado com esse nome.");
         }
+    }
+
+    public void removerItemDaLista(int codigo) {
+        Item itemParaRemover = null;
+        for (Item item : listaDeCompras) {
+            if (item.getCodigo() == codigo) {
+                itemParaRemover = item;
+                break;
+            }
+        }
+        if (itemParaRemover != null) {
+            listaDeCompras.remove(itemParaRemover);
+            System.out.println("Item removido da lista de compras com sucesso!");
+        } else {
+            System.out.println("Item não encontrado na lista de compras.");
+        }
+    }
+
+    public void removerItemCadastrado(int codigo) {
+        Item itemParaRemover = null;
+        for (Item item : listaDeItens) {
+            if (item.getCodigo() == codigo) {
+                itemParaRemover = item;
+                break;
+            }
+        }
+        if (itemParaRemover != null) {
+            listaDeItens.remove(itemParaRemover);
+            System.out.println("Item removido da lista de cadastrados com sucesso!");
+        } else {
+            System.out.println("Item não encontrado na lista de cadastrados.");
+        }
+    }
+
+    public void editarNomeItem(int codigo, String novoNome) {
+        for (Item item : listaDeItens) {
+            if (item.getCodigo() == codigo) {
+                // Verifica se o novo nome já está em uso
+                String erroNome = verificarNomeDuplicado(novoNome);
+                if (erroNome != null) {
+                    System.out.println(erroNome);
+                    return;
+                }
+                item.setNome(novoNome);
+                System.out.println("Nome do item atualizado com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Item não encontrado para edição.");
+    }
+
+    public void editarCodigoItem(int codigoAntigo, int novoCodigo) {
+        for (Item item : listaDeItens) {
+            if (item.getCodigo() == codigoAntigo) {
+                // Verifica se o novo código já está em uso
+                String erroCodigo = verificarCodigoDuplicado(novoCodigo);
+                if (erroCodigo != null) {
+                    System.out.println(erroCodigo);
+                    return;
+                }
+                item.setCodigo(novoCodigo);
+                System.out.println("Código do item atualizado com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Item não encontrado para edição.");
     }
 }
