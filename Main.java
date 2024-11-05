@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Sistema sistema = new Sistema();
         Scanner scanner = new Scanner(System.in);
-        
+
         while (true) {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Cadastrar Item");
@@ -17,18 +17,21 @@ public class Main {
             System.out.println("8 - Remover Item Cadastrado");
             System.out.println("9 - Editar nome de um Item");
             System.out.println("10 - Editar código de um Item");
+            System.out.println("11 - Filtrar Itens por Faixa de Preço");
+            System.out.println("12 - Ordenar Itens por Nome");
+            System.out.println("13 - Ordenar Itens por Preço");
             System.out.println("0 - Sair");
-        
+
             int opcao = scanner.nextInt();
             scanner.nextLine();
-            
+
             if (opcao == 1) {
                 System.out.print("Digite o código do Item: ");
                 int codigo = scanner.nextInt();
                 scanner.nextLine();
-                
+
                 String erroCodigo = sistema.verificarCodigoDuplicado(codigo);
-                if (erroCodigo != null) { 
+                if (erroCodigo != null) {
                     System.out.println(erroCodigo);
                     continue;
                 }
@@ -37,7 +40,7 @@ public class Main {
                 String nome = scanner.nextLine();
 
                 String erroNome = sistema.verificarNomeDuplicado(nome);
-                if (erroNome != null) { 
+                if (erroNome != null) {
                     System.out.println(erroNome);
                     continue;
                 }
@@ -48,10 +51,10 @@ public class Main {
 
                 sistema.criarItem(codigo, nome, preco);
                 System.out.println("Produto criado e adicionado à lista de produtos com sucesso!");
-                
+
             } else if (opcao == 2) {
                 sistema.listarItensCadastrados();
-                
+
                 if (!sistema.getListaDeItens().isEmpty()) {
                     System.out.print("Qual produto você gostaria de adicionar à lista? Digite o código: ");
                     int codigoAdicionar = scanner.nextInt();
@@ -59,7 +62,7 @@ public class Main {
                 } else {
                     System.out.println("Nenhum produto cadastrado para adicionar à lista.");
                 }
-                
+
             } else if (opcao == 3) {
                 sistema.listarItensCadastrados();
             } else if (opcao == 4) {
@@ -89,7 +92,7 @@ public class Main {
                 scanner.nextLine(); // Limpa o buffer
                 System.out.print("Digite o novo nome do Item: ");
                 String novoNome = scanner.nextLine();
-                
+
                 sistema.editarNomeItem(codigoEditar, novoNome);
             } else if (opcao == 10) { // Opção para editar código
                 sistema.listarItensCadastrados();
@@ -99,6 +102,18 @@ public class Main {
                 int novoCodigo = scanner.nextInt();
 
                 sistema.editarCodigoItem(codigoAntigo, novoCodigo);
+            } else if (opcao == 11) { // Opção para filtrar por faixa de preço
+                System.out.print("Digite o preço mínimo: ");
+                double precoMin = scanner.nextDouble();
+                System.out.print("Digite o preço máximo: ");
+                double precoMax = scanner.nextDouble();
+                scanner.nextLine();
+
+                sistema.filtrarItensPorFaixaDePreco(precoMin, precoMax);
+            } else if (opcao == 12) { // Opção para ordenar por nome
+                sistema.ordenarItensPorNome();
+            } else if (opcao == 13) { // Opção para ordenar por preço
+                sistema.ordenarItensPorPreco();
             } else if (opcao == 0) {
                 System.out.println("Encerrando o sistema...");
                 break;
@@ -106,7 +121,7 @@ public class Main {
                 System.out.println("Opção inválida. Tente novamente.");
             }
         }
-        
+
         scanner.close();
     }
 }

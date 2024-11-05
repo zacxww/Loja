@@ -1,5 +1,6 @@
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,73 +111,88 @@ public class Sistema {
         }
 
         if (!encontrado) {
-            System.out.println("Nenhum item encontrado com esse nome.");
+            System.out.println("Nenhum item encontrado com o nome especificado.");
         }
     }
 
     public void removerItemDaLista(int codigo) {
-        Item itemParaRemover = null;
         for (Item item : listaDeCompras) {
             if (item.getCodigo() == codigo) {
-                itemParaRemover = item;
-                break;
+                listaDeCompras.remove(item);
+                System.out.println("Item " + item.getNome() + " removido da lista com sucesso.");
+                return;
             }
         }
-        if (itemParaRemover != null) {
-            listaDeCompras.remove(itemParaRemover);
-            System.out.println("Item removido da lista de compras com sucesso!");
-        } else {
-            System.out.println("Item não encontrado na lista de compras.");
-        }
+        System.out.println("Item não encontrado na lista de compras.");
     }
 
     public void removerItemCadastrado(int codigo) {
-        Item itemParaRemover = null;
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
-                itemParaRemover = item;
-                break;
+                listaDeItens.remove(item);
+                System.out.println("Item " + item.getNome() + " removido com sucesso.");
+                return;
             }
         }
-        if (itemParaRemover != null) {
-            listaDeItens.remove(itemParaRemover);
-            System.out.println("Item removido da lista de cadastrados com sucesso!");
-        } else {
-            System.out.println("Item não encontrado na lista de cadastrados.");
-        }
+        System.out.println("Item não encontrado na lista de itens cadastrados.");
     }
 
     public void editarNomeItem(int codigo, String novoNome) {
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigo) {
-                // Verifica se o novo nome já está em uso
-                String erroNome = verificarNomeDuplicado(novoNome);
-                if (erroNome != null) {
-                    System.out.println(erroNome);
-                    return;
-                }
                 item.setNome(novoNome);
-                System.out.println("Nome do item atualizado com sucesso!");
+                System.out.println("Nome do item alterado para: " + novoNome);
                 return;
             }
         }
-        System.out.println("Item não encontrado para edição.");
+        System.out.println("Item não encontrado.");
     }
 
     public void editarCodigoItem(int codigoAntigo, int novoCodigo) {
         for (Item item : listaDeItens) {
             if (item.getCodigo() == codigoAntigo) {
-                // Verifica se o novo código já está em uso
                 String erroCodigo = verificarCodigoDuplicado(novoCodigo);
                 if (erroCodigo != null) {
                     System.out.println(erroCodigo);
                     return;
                 }
                 item.setCodigo(novoCodigo);
-                System.out.println("Código do item atualizado com sucesso!");
+                System.out.println("Código do item alterado para: " + novoCodigo);
                 return;
             }
         }
-        System.out.println("Item não encontrado para edição.");
+        System.out.println("Item não encontrado.");
+    }
+
+    public void filtrarItensPorFaixaDePreco(double precoMin, double precoMax) {
+        boolean encontrado = false;
+        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        System.out.println("Itens na faixa de preço de " + formatoMoeda.format(precoMin) + " a " + formatoMoeda.format(precoMax) + ":");
+        for (Item item : listaDeItens) {
+            if (item.getPreco() >= precoMin && item.getPreco() <= precoMax) {
+                System.out.printf("Código: %d, Nome: %s, Preço: %s%n",
+                        item.getCodigo(),
+                        item.getNome(),
+                        formatoMoeda.format(item.getPreco()));
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("Nenhum item encontrado nessa faixa de preço.");
+        }
+    }
+
+    public void ordenarItensPorNome() {
+        listaDeItens.sort(Comparator.comparing(Item::getNome));
+        System.out.println("Itens ordenados por nome com sucesso.");
+        listarItensCadastrados(); // Para mostrar a lista após ordenação
+    }
+
+    public void ordenarItensPorPreco() {
+        listaDeItens.sort(Comparator.comparing(Item::getPreco));
+        System.out.println("Itens ordenados por preço com sucesso.");
+        listarItensCadastrados(); // Para mostrar a lista após ordenação
     }
 }
