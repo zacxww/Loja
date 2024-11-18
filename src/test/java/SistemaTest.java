@@ -14,12 +14,12 @@ class SistemaTest {
 
     @Test
     void testAtualizarPrecoPorCodigo_ItemExistente() {
-        // Dado que um item com código 1 existe e tem o preço 10.0
-        // Quando eu tento atualizar o preço para 15.0
-        // Então o preço do item deve ser atualizado corretamente.
-
         boolean resultado = sistema.atualizarPrecoPorCodigo(1, 15.0);
+
         assertTrue(resultado, "O preço deveria ser atualizado com sucesso.");
+
+        assertEquals(15.0, sistema.getListaDeItens().get(0).getPreco(), 0.01,
+                "O preço do produto com código 1 deveria ser 15.0.");
     }
 
 }
