@@ -20,6 +20,7 @@ public class Main {
             System.out.println("11 - Filtrar Itens por Faixa de Preço");
             System.out.println("12 - Ordenar Itens por Nome");
             System.out.println("13 - Ordenar Itens por Preço");
+            System.out.println("14 - Atualizar Preço de um Item pelo Código");
             System.out.println("0 - Sair");
 
             int opcao = scanner.nextInt();
@@ -85,16 +86,16 @@ public class Main {
                 System.out.print("Digite o código do Item que deseja remover: ");
                 int codigoRemoverCadastrado = scanner.nextInt();
                 sistema.removerItemCadastrado(codigoRemoverCadastrado);
-            } else if (opcao == 9) { // Opção para editar nome
+            } else if (opcao == 9) {
                 sistema.listarItensCadastrados();
                 System.out.print("Digite o código do Item que deseja editar o nome: ");
                 int codigoEditar = scanner.nextInt();
-                scanner.nextLine(); // Limpa o buffer
+                scanner.nextLine();
                 System.out.print("Digite o novo nome do Item: ");
                 String novoNome = scanner.nextLine();
 
                 sistema.editarNomeItem(codigoEditar, novoNome);
-            } else if (opcao == 10) { // Opção para editar código
+            } else if (opcao == 10) {
                 sistema.listarItensCadastrados();
                 System.out.print("Digite o código do Item que deseja editar: ");
                 int codigoAntigo = scanner.nextInt();
@@ -102,7 +103,7 @@ public class Main {
                 int novoCodigo = scanner.nextInt();
 
                 sistema.editarCodigoItem(codigoAntigo, novoCodigo);
-            } else if (opcao == 11) { // Opção para filtrar por faixa de preço
+            } else if (opcao == 11) {
                 System.out.print("Digite o preço mínimo: ");
                 double precoMin = scanner.nextDouble();
                 System.out.print("Digite o preço máximo: ");
@@ -110,10 +111,16 @@ public class Main {
                 scanner.nextLine();
 
                 sistema.filtrarItensPorFaixaDePreco(precoMin, precoMax);
-            } else if (opcao == 12) { // Opção para ordenar por nome
+            } else if (opcao == 12) {
                 sistema.ordenarItensPorNome();
-            } else if (opcao == 13) { // Opção para ordenar por preço
+            } else if (opcao == 13) {
                 sistema.ordenarItensPorPreco();
+            } else if (opcao == 14) {
+                System.out.print("Digite o código do Item que deseja atualizar o preço: ");
+                int codigoAtualizar = scanner.nextInt();
+                System.out.print("Digite o novo preço: ");
+                double novoPreco = scanner.nextDouble();
+                sistema.atualizarPrecoPorCodigo(codigoAtualizar, novoPreco);
             } else if (opcao == 0) {
                 System.out.println("Encerrando o sistema...");
                 break;

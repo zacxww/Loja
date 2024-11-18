@@ -195,4 +195,21 @@ public class Sistema {
         System.out.println("Itens ordenados por preço com sucesso.");
         listarItensCadastrados(); // Para mostrar a lista após ordenação
     }
+
+    public boolean atualizarPrecoPorCodigo(int codigo, double novoPreco) {
+        if (novoPreco <= 0) {
+            System.out.println("Erro: O preço deve ser maior que zero.");
+            return false;
+        }
+        for (Item item : listaDeItens) {
+            if (item.getCodigo() == codigo) {
+                item.setPreco(novoPreco);
+                System.out.println("Preço do item atualizado com sucesso: " + item.getNome() +
+                        " agora custa R$ " + novoPreco);
+                return true;
+            }
+        }
+        System.out.println("Erro: Item com o código " + codigo + " não encontrado.");
+        return false;
+    }
 }
